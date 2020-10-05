@@ -1,0 +1,452 @@
+body {
+    font-family: Verdana,Arial,Helvetica,sans-serif; 
+}
+
+html, body, #white { 
+    background-color: white;
+}
+
+.updatehere {
+    font-size: 16px;
+    text-align: right;
+    margin-right: 10px;
+}
+
+.update-order input:hover, .update-status input:hover {
+    text-decoration: none; 
+    background-color: rgb(155, 68, 68);
+}
+
+.orderhere, .reviewhere {
+    text-align: right;
+    font-size: 13px;
+}
+
+#rating-list, #rating-dropdown, .rating-desc {
+    font-size: 12px;  
+    font-weight: bold;
+    height: 28px;
+}
+
+.rating-desc {
+    margin-top: 5px;
+}
+
+.rating-desc textarea {
+    font-size: 12px;
+}
+
+.orderhere a, .reviewhere a {
+    color: black;
+    font-weight: bold;
+}
+
+.orderhere button:hover, .reviewhere input:hover {
+    text-decoration: none; 
+    background-color: rgb(155, 68, 68);
+}
+
+h1, h2 {
+    text-align: center; 
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+h2 {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+#review-row a {
+    color: darkred;
+    text-decoration: underline;
+}
+
+#review-row, #order-row, #title-row {
+    font-size: 18px;  
+    font-weight: bold;
+    height: 30px;
+}
+
+#title-row {
+    color: darkgreen;
+}
+
+#banner table {
+    border: thin solid black;
+}
+
+#banner-title {
+    height: 100;
+    padding: 20px; 
+    margin-top: 16px;
+    text-align: center;
+}
+
+#logo {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.green { 
+    background-color: darkgreen; 
+}
+
+.red {
+    background-color: darkred;
+}
+
+li {
+    margin-right: 40px;
+    text-align: center;
+}
+
+.callout { 
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+    text-align: center; 
+    background-color: white; 
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+#header-margin {
+    height: 20px;
+}
+
+.header-body {
+    height: 30px;
+}
+
+#main-margin {
+    height: 20px;
+    background-color: darkgreen;
+}
+
+#menubody {
+    background-color: darkgreen;
+}
+
+#menu table {
+    background-color: white;
+    border-collapse: collapse;
+}
+
+#menu th {
+    font-family: Arial,Verdana,Helvetica,sans-serif;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;
+    padding: 5px;
+    text-align: center;
+ }
+
+ #indexTab, #viewOrderTab, #placeOrderTab, #orderStatusTab, #loginTab, #logoutTab {
+    border: 1px solid black;
+}
+
+@media (min-width: 1000px) {
+    #menu {
+        margin-left: 320px;
+        margin-top: 15px;
+    }
+    .callout {
+        font-size: 18px;  
+    }
+    h1 {
+        font-size: 30px;
+    }    
+    h2 {
+        font-size: 24px;
+    }
+    h3 {
+        font-size: 18px; 
+    }
+}
+
+@media (max-width: 999px) {
+    #menu {
+        margin-left: 180px;
+        margin-top: 8px;
+    }
+    .callout {
+        font-size: 14px;
+    }
+    h1 {
+        font-size: 25px;
+    }
+    h2 {
+        font-size: 20px;
+    }
+    h3 {
+        font-size: 16px; 
+    }
+    #whitespace {
+        display: none;
+    }
+}
+
+@media (max-width: 499px) {
+    #menu {
+        margin-left: 60px;
+        margin-top: 0px;
+        font-size: 10px;
+    }
+    .callout {
+        font-size: 10px;
+    }
+    h1 {
+        font-size: 20px;
+    }
+    h2 {
+        font-size: 15px;
+    }
+    h3 {
+        font-size: 13px;
+    }
+    #whitespace {
+        display: none;
+    }
+    .white {
+        width: 0%;
+    }
+}
+
+#menu {
+    text-align: center;
+}
+
+#menu a {
+    color: darkgreen;
+}
+
+#menu a:link {
+    text-decoration: none;
+}
+
+#menu a:visited {
+    text-decoration: none;
+}
+
+#menu th:hover {
+    text-decoration: none; 
+    color: white; 
+    background-color: rgb(155, 68, 68);
+}
+
+#menu #youarehere { 
+    background-color: darkgreen; 
+    color: white; 
+    border-bottom: 1px solid darkgreen;
+}
+
+.accessories table {
+    border-collapse: collapse;
+    width: 80%;
+    padding: 5px;
+    text-align: left;
+    margin-left: 70px;
+    margin-bottom: 10px;
+}
+
+.treemenu table {
+    border-collapse: collapse;
+    width: 80%;
+    padding: 5px;
+    text-align: center;
+    margin-left: 70px;
+    margin-bottom: 10px;
+}
+
+.tree-header, .accessories-header {
+    color: darkred;
+}
+
+.tree a {
+    color: darkgreen;
+}
+
+.tree td, .tree th, .other td, .other th, .accessories th, .accessories td {
+    border-bottom: thin solid black;
+}
+
+.left {
+    text-align: left;
+}
+
+.totalmenu table { 
+    border: none; 
+    text-align: center; 
+    table-layout: fixed;
+    font-size: 60%; 
+    padding: 0; 
+    margin-top: 1px; 
+    margin-bottom: 1px;
+    line-height: 10px;
+}
+
+.totalmenu th {
+    background-color: lightgoldenrodyellow;
+}
+
+table .white {
+    border-bottom: thin solid white;
+}
+
+.white {
+    background-color: white;
+}
+
+.nav-link {
+    display: block;
+    padding: 0;
+    color: darkgreen;
+}
+
+#user-name {
+    font-size: 15px;
+    margin-top: 15px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+#nav-cart {
+    margin-top: 0px;
+    height: 45px;
+    width: 100px;
+    text-align: left;
+}
+
+.nav-a {
+     position: relative;
+     float: left;
+     top: 1px;
+     line-height: 45px;
+     height: 45px;
+}
+
+.nav-cart-count {
+    color: darkred;
+    margin-top: 18px;
+    position: absolute;
+    font-weight: 700;
+    font-family: Arial,sans-serif;
+    line-height: 16px;
+    font-size: 15px;
+}
+
+.nav-cart-count:hover {
+    color: darkgreen;
+}
+
+#nav-cart-count {
+    margin-left: 21px;
+    text-align: left;
+}
+
+#basket {
+    margin-left: 16px;
+    text-align: left;
+}
+
+ #nav-cart .nav-cart-icon {
+     display: block;
+     overflow: hidden;
+     position: absolute;
+     top: 5px;
+     background-position: -5px -340px;
+}
+
+.update-order, .update-status {
+    font-size: 14px;
+    text-align: right;
+    margin-right: 12px;
+}
+
+.card {
+    margin-bottom: 0px;
+}
+
+.update-order input:hover, .place-order input:hover {
+    text-decoration: none; 
+    background-color: rgb(155, 68, 68);
+}
+
+#review-selections {
+    text-align: center;
+    color: darkgreen;
+}
+
+#review-desc {
+    text-align: center;
+}
+
+#footer a {
+    color: darkred;
+}
+
+#footer {
+    text-align: center;
+}
+
+.item-desc {
+    text-align: left;
+}
+
+#review-desc, #review-link {
+    text-align: center;
+}
+
+#review-link, #review-seletions {
+    font-size: 16px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+#review-desc, #choices {
+    margin-left: 20px;
+    font-size: 13px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+#choices {
+    text-align: left;
+}
+
+.item-desc {
+    margin-left: 20px;
+    font-size: 16px;
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+#review a, #review-link a {
+    color: darkred;
+    text-decoration: underline;
+}
+
+#special-desc {
+    text-align: left;
+    margin-bottom: 0px;
+    margin-left: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.total-desc {
+    font-size: 17px;
+    margin-right: 10px;
+    text-align: right;
+}
+
+#order_id input:hover, #add-review input:hover, #view-cart input:hover, #add-tree input:hover, #add-wreath input:hover, #add-garland input:hover, #add-centerpiece input:hover, #add-minitree input:hover, #add-lights input:hover, #add-stand input:hover, #add-skirt input:hover, #add-runner input:hover, #add-decorations input:hover, #add-ribbon input:hover, #add-angel input:hover, #add-star input:hover, #add-bells input:hover, #add-bow input:hover, #add-bulb input:hover, #add-accessories input:hover {
+    text-decoration: none; 
+    background-color: rgb(155, 68, 68);
+}
