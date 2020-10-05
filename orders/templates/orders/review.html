@@ -1,0 +1,120 @@
+{% extends "orders/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script src="{% static 'orders/review.js' %}"></script>
+{% endblock %}
+
+{% block header %}
+<table width="70%">
+    <tr>
+        <th id="youarehere" width="16%">
+          <a id="youarehere" href="{% url 'index' %}" class="menu-link" data-page="index">Menu</a></button>
+        </th>
+        <th id="viewOrderTab" width="16%">
+          <a id="viewOrder" href="{% url 'viewOrder' %}" class="menu-link" data-page="viewOrder">View Order</a></button>
+        </th>
+        <th id="placeOrderTab" width="16%">
+          <a id="placeOrder" href="{% url 'placeOrder' %}" class="menu-link" data-page="placeOrder">Place Order</a>
+        </th>
+        <th id="loginTab" width="16%">
+          <a id="login" href="{% url 'login' %}" class="menu-link" data-page="login">Login</a></button>
+        </th>
+        <th id="logoutTab" width="16%">
+          <a id="logout" href="{% url 'logout' %}"  class="menu-link" data-page="logout">Logout</a></button>
+        </th>
+    </tr>
+</table>
+{% endblock %}
+
+{% block body %}
+<div id="main">
+    <div class="callout" width="100%">
+        <p id="main-margin">&nbsp</p>
+        <div class="row no-gutters" id="order-row">
+          <div class="col-md-12">
+            <p>&nbsp</p>
+          </div>
+        </div>
+        <h2>Review Item</h2>
+        <form id="review" action="{% url 'review' item_id=item_id %}" method="post">
+          {% csrf_token %}
+          <div class="form-row align-items-start">
+            <div class="col-md-1">
+                <p>&nbsp</p>
+            </div>
+            <div class="col-md-11">
+              <h3>Please give the item a rating and leave your comments below:</h3>            
+            </div>
+          </div>
+          <div class="form-row align-items-start">
+            <div class="col-md-1">
+                <p class="rating-desc">&nbsp</p>
+            </div>
+            <div class="col-md-2">
+                <p class="rating-desc">Rating: </p>            
+            </div>
+            <div class="col-md-4">
+                <p class="rating-desc">Select Rating (up to 5 stars)</p>   
+            </div>
+            <div class="col-md-4">
+              <div class="form-group" id="rating-list">
+                <select class="form-control" name="rating" id="rating-dropdown">
+                    <option value="*****" selected>***** (Really loved it!)</option>
+                    <option value="****">**** (Loved it)</option>
+                    <option value="***">*** (Liked it ok)</option>
+                    <option value="**">** (Did not like it)</option>
+                    <option value="*">* (Really did not like it)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-row align-items-start">
+            <div class="col-md-1">
+                <p>&nbsp</p>
+            </div>
+            <div class="col-md-10">
+              <div class="form-group">
+                <span class="rating-desc">
+                  <label for="comment">Comments (limit 300 characters)</label>
+                  <textarea class="form-control" maxlength=300 rows="5" id="comment" name="comment"></textarea>
+                </span>
+              </div>
+            </div>
+            <div class="col-md-1">
+                <p>&nbsp</p>
+            </div>
+          </div>
+          <div class="form-row align-items-start">
+            <div class="col-md-12">
+              <span id="choices">
+                <select name="item-choice" id="item-choice" type="hidden">
+                  <option value="{{ item_choice }}" selected>{{ item_choice }}</option>
+                </select>
+              </span>
+            </div>
+          </div>
+          <div class="form-row align-items-start">
+            <div class="col-md-5">
+                <p>&nbsp</p>
+            </div>
+            <div class="col-md-2">
+              <span class="reviewhere">
+                <input id="add-review" type="submit" value="Submit Review"/>
+              </span>
+            </div>
+            <div class="col-md-5">
+                <p>&nbsp</p>
+            </div>
+          </div>
+        </form>
+        <div class="card mb-3">
+          <div class="row no-gutters" id="footer">
+            <div class="col-md-6"><a href="{% url 'placeOrder' %}">Place Order</a></div>
+            <div class="col-md-6"><a href="{% url 'index' %}">Return to menu</a></div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

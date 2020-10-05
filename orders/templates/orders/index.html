@@ -1,0 +1,670 @@
+{% extends "orders/base.html" %}
+{% load staticfiles %}
+
+{% block title %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script src="{% static 'orders/index.js' %}"></script>
+{% endblock %}
+
+{% block user %}
+    {% if user %}
+        <div id="user-name">{{ user }}</div>
+    {% endif %}
+{% endblock %}
+
+{% block cart %}
+<div class="basket-link">
+  {% if reg_user %}
+    {% if count == 1 %}
+      <a href="{% url 'viewCart' %}" aria-label="1 item in cart" class="nav-a nav-a-2" id="nav-cart">
+    {% else %}
+      <a href="{% url 'viewCart' %}" aria-label="{{ count }} items in cart" class="nav-a nav-a-2" id="nav-cart">
+    {% endif %}
+      <span class="nav-cart-icon nav-sprite" style="background-image: url('/static/orders/cart.png')">
+        <img src="{% static "orders/cart.png" %}" alt="My cart" height="45" width="45">
+      </span>
+      <span aria-hidden="true" class="nav-cart-count">
+        <span id="nav-cart-count">{{ count }}</span><span id="basket">Basket</span>   
+      </span>
+    </a>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block header %}
+<table width="70%">
+    <tr>
+        <th id="youarehere" width="16%">
+          <a id="youarehere" href="{% url 'index' %}" class="menu-link" data-page="index">Menu</a>
+        </th>
+        <th id="viewOrderTab" width="16%">
+          <a id="viewOrder" href="{% url 'viewOrder' %}" class="menu-link" data-page="viewOrder">View Order</a>
+        </th>
+        {% if reg_user %}
+          <th id="placeOrderTab" width="16%">
+            <a id="placeOrder" href="{% url 'placeOrder' %}" class="menu-link" data-page="placeOrder">Place Order</a>
+          </th>
+        {% else %}
+          <th id="orderStatusTab" width="16%">
+            <a id="orderStatus" href="{% url 'orderStatus' 0 %}" class="menu-link" data-page="orderStatus">Update Order</a>
+          </th>
+        {% endif %}
+        <th id="loginTab" width="16%">
+          <a id="login" href="{% url 'login' %}" class="menu-link" data-page="login">Login</a>
+        </th>
+        <th id="logoutTab" width="16%">
+          <a id="logout" href="{% url 'logout' %}"  class="menu-link" data-page="logout">Logout</a>
+        </th>
+    </tr>
+</table>
+{% endblock %}
+
+{% block body %}
+<div id="main">
+    <div class="callout" width="100%">
+        <p id="main-margin">&nbsp</p>
+        <h2>Our Products</h2>
+        {% for index in menus %}
+          <div class="totalmenu">
+            <table class="menunav" width="100%">
+              <tr>
+                <th>
+                  <a href="" class="nav-link" data-page="Trees">Trees</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="Wreaths">Wreaths</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="Garland">Garland</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="MiniTrees">MiniTrees</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="Centerpieces">Centerpieces</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="Accessories">Accessories</a>
+                </th>
+                <th>
+                  <a href="" class="nav-link" data-page="Decorations">Decorations</a>
+                </th>
+              </tr>
+              <tr>
+                <td class="white" colspan="3">&nbsp</td>
+              </tr>
+            </table>
+          </div>
+          <div class="treemenu" width="100%">
+            {% if index == 1 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Trees">Trees</a></h3>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="orderhere">
+                      {% if reg_user %}
+                        <button id="add-tree" title="Select and add Tree to cart"><a href="{% url 'tree' %}">Order Here</a></button>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </span>
+              <table class="tree">
+                <tr class="tree-header">
+                  <th width="30%"></th>
+                  <th width="25%">Small</th>
+                  <th width="25%">Large</th>
+                </tr cl>
+                {% if trees %}
+                  {% for item in trees %}
+                    {% if item.size == "Small" %}
+                      <tr>
+                        {% if item.greenChoice == 0 %}
+                          <td><a href="https://assets3.thrillist.com/v1/image/1851941/size/tl-horizontal_main.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 1 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-fraser.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 2 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-canaan.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 3 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-douglas-fir.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 4 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-grand-fir.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 5 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-noble-fir.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 6 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-concolor-fir.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 7 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-white-pine.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 8 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-scotch-pine.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 9 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-virginia-pine.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 10 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-blue-spruce.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 11 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-norway-spruce.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 12 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-white-spruce.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 13 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-arizona-cypress.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 14 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-leyland-cypress.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% elif item.greenChoice == 15 %}
+                          <td><a href="https://www.proflowers.com/blog/wp-content/uploads/2017/10/types-of-christmas-trees-red-cedar.jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% else %}
+                          <td><a href="https://en.wikipedia.org/wiki/Holly#/media/File:Ilex-aquifolium_(Europaeische_Stechpalme-1).jpg" id=tree-link>{{ item.get_greenChoice_display }}</a></td>
+                        {% endif %}
+                        {% if item.smallAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                          <td class="price"> - </td>
+                        {% endif %}
+                    {% else %}
+                      {% if item.largeAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        </tr>
+                      {% else %}
+                          <td class="price"> - </td>
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="3">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 2 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Wreaths">Wreaths</a></h3>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="orderhere">
+                      {% if reg_user %}
+                        <button id="add-wreath" title="Select and add Wreath to cart"><a href="{% url 'wreath' %}">Order Here</a></button>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </span>
+              <table class="tree">
+                <tr class="tree-header">
+                  <th width="30%"></th>
+                  <th width="25%">Small</th>
+                  <th width="25%">Large</th>
+                </trclass="tree-header">
+                {% if wreaths %}
+                  {% for item in wreaths %}
+                    {% if item.size == "Small" %}
+                      <tr>
+                        <td>{{ item.get_greenChoice_display }}</td>
+                        {% if item.smallAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                          <td class="price"> - </td>
+                        {% endif %}
+                    {% else %}
+                      {% if item.largeAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        </tr>
+                      {% else %}
+                          <td class="price"> - </td>
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="3">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 3 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Garland">Garland</a></h3>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="orderhere">
+                      {% if reg_user %}
+                        <button id="add-garland" title="Select and add Garland to cart"><a href="{% url 'garland' %}">Order Here</a></button>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </span>
+              <table class="tree">
+                <tr class="tree-header">
+                  <th width="40%"></th>
+                  <th width="40%"></th>
+                </tr>
+                {% if garland %}
+                  {% for item in garland %}
+                    {% if item.size == "Large"  %}
+                      <tr>
+                        <td>{{ item.get_greenChoice_display }}</td>
+                        {% if item.largeAvail %}
+                            <td class="price"> {{ item.price }} </td>
+                          </tr>
+                        {% else %}
+                            <td class="price"> - </td>
+                          </tr>
+                        {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="3">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 4 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="MiniTrees">MiniTrees</a></h3>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="orderhere">
+                      {% if reg_user %}
+                        <button id="add-minitree" title="Select and add MiniTree to cart"><a href="{% url 'miniTree' %}">Order Here</a></button>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </span>
+              <table class="tree">
+                <tr class="tree-header">
+                  <th width="40%"></th>
+                  <th width="40%"></th>
+                </tr>
+                {% if minitree %}
+                  {% for item in minitree %}
+                    {% if item.size == "Large" %}
+                      <tr>
+                        <td>{{ item.get_greenChoice_display }}</td>
+                        {% if item.largeAvail %}
+                            <td class="price"> {{ item.price }} </td>
+                          </tr>
+                        {% else %}
+                            <td class="price"> - </td>
+                          </tr>
+                        {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="3">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 5 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Centerpieces">Centerpieces</a></h3>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="orderhere">
+                      {% if reg_user %}
+                        <button id="add-centerpiece" title="Select and add Centerpiece to cart"><a href="{% url 'centerpiece' %}">Order Here</a></button>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+              </span>
+              <table class="tree">
+                <tr class="tree-header">
+                  <th width="30%"></th>
+                  <th width="25%">Small</th>
+                  <th width="25%">Large</th>
+                </tr>
+                {% if centerpieces %}
+                  {% for item in centerpieces %}
+                    {% if item.size == "Small" %}
+                      <tr>
+                        <td>{{ item.get_greenChoice_display }}</td>
+                        {% if item.smallAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                          <td class="price"> - </td>
+                        {% endif %}
+                    {% else %}
+                      {% if item.largeAvail %}
+                          <td class="price"> {{ item.price }} </td>
+                        </tr>
+                      {% else %}
+                          <td class="price"> - </td>
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="3">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 6 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Accessories">Tree Accessories</a></h3>
+                  </div>
+                </div>
+              </span>
+              <table class="accessories">
+                <tr class="accessories-header">
+                  <th width="39%"></th>
+                  <th width="13%">Small</th>
+                  <th width="13%">Large</th>
+                  <th width="15%"></th>
+                </tr>
+                {% if stands %}
+                  {% for item in stands %}
+                    {% if item.avail %}
+                      {% if item.item == "Metal" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Tree Stand - metal/plastic</td>
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-stand" title="Select and add Tree Stand to cart"><a href="{% url 'stand' %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if angel %}
+                  {% for item in angel %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Angel - various colors</td>
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-angel" title="Select and add Angel Ornament to cart"><a href="{% url 'angel' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if star %}
+                  {% for item in star %}
+                    {% if item.avail %}
+                      {% if item.item == "Gold" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Star - various colors</td class="left">
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-star" title="Select and add Star Ornament to cart"><a href="{% url 'star' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if bow %}
+                  {% for item in bow %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Bow - various colors</td class="left">
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-bow" title="Select and add Bow Ornament to cart"><a href="{% url 'bow' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if bells %}
+                  {% for item in bells %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Bells - various colors</td class="left">
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-bells" title="Select and add Bell Ornament to cart"><a href="{% url 'bells' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </th>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if bulbs %}
+                  {% for item in bulbs %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Bulbs (Dozen) - various colors</td class="left">
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-bulb" title="Select and add Box of Bulbs to cart"><a href="{% url 'bulb' %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if skirts %}
+                  {% for item in skirts %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        {% if item.size == "Small" %}
+                          <tr>
+                            <td class="left">Tree Skirt - various colors</td>
+                            <td class="price"> {{ item.price }} </td>
+                        {% else %}
+                            <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-skirt" title="Select and add Tree Skirt to cart"><a href="{% url 'treeSkirt' %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </td>
+                          {% endif %}
+                          </tr>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="2">&nbsp</td>
+                </tr>
+              </table>
+            {% elif index == 7 %}
+              <span id="order-row">
+                <div class="row no-gutters">
+                  <div class="col-md-4">
+                    <p id="whitespace">&nbsp</p>
+                  </div>
+                  <div class="col-md-4">
+                    <h3><a id="Decorations">Tree Decorations</a></h3>
+                  </div>
+                </div>
+              </span>
+              <table class="accessories">
+                <tr class="accessories-header">
+                  <th width="50%"></th>
+                  <th width="15%"></th>
+                  <th width="15%"></th>
+                </tr>
+                {% if toppersAngel %}
+                  {% for item in toppersAngel %}
+                    {% if item.avail and forloop.first %}
+                      <tr>
+                        <td class="left">Angel Topper - various colors</td class="left">
+                        <td class="price"> {{ item.price }} </td>
+                        {% if reg_user %}
+                          <td class="orderhere"><button id="add-angel" title="Select and add Angel Topper to cart"><a href="{% url 'angel' size=item.size %}">Order Here</a></button></td>
+                        {% else %}
+                          <td> </td>
+                        {% endif %}
+                        </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if toppersStar %}
+                  {% for item in toppersStar%}
+                    {% if item.avail and forloop.first %}
+                      <tr>
+                        <td class="left">Star Topper - various colors</td class="left">
+                        <td class="price"> {{ item.price }} </td>
+                        {% if reg_user %}
+                          <td class="orderhere"><button id="add-star" title="Select and add Star Topper to cart"><a href="{% url 'star' size=item.size %}">Order Here</a></button></td>
+                        {% else %}
+                          <td> </td>
+                        {% endif %}
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if toppersBow %}
+                  {% for item in toppersBow %}
+                    {% if item.avail and forloop.first %}
+                      <tr>
+                        <td class="left">Bow Topper - various colors</td class="left">
+                        <td class="price"> {{ item.price }} </td>
+                        {% if reg_user %}
+                          <td class="orderhere"><button id="add-bow" title="Select and add Bow Topper to cart"><a href="{% url 'bow' size=item.size %}">Order Here</a></button></td>
+                        {% else %}
+                          <td> </td>
+                        {% endif %}
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if toppersBells %}
+                  {% for item in toppersBells %}
+                    {% if item.avail and forloop.first %}
+                      <tr>
+                        <td class="left">Bells Topper - various colors</td class="left">
+                        <td class="price"> {{ item.price }} </td>
+                        {% if reg_user %}
+                          <td class="orderhere"><button id="add-bells" title="Select and add Bells Topper to cart"><a href="{% url 'bells' size=item.size %}">Order Here</a></button></td>
+                        {% else %}
+                          <td> </th>
+                        {% endif %}
+                      </tr>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if ribbon %}
+                  {% for item in ribbon %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        <tr>
+                          <td class="left">Ribbon - various colors: {{ item.size }}</td class="left">
+                          <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-ribbon" title="Select and add Ribbon to cart"><a href="{% url 'ribbon' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </th>
+                          {% endif %}
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if lights %}
+                  {% for item in lights %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        <tr>
+                          <td class="left">Lights - various colors: {{ item.size }}</td class="left">
+                          <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-lights" title="Select and add Light String to cart"><a href="{% url 'lights' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </th>
+                          {% endif %}
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                {% if runner %}
+                  {% for item in runner %}
+                    {% if item.avail %}
+                      {% if item.item == "Red" %}
+                        <tr>
+                          <td class="left">Table Runner - various colors: {{ item.size }}</td class="left">
+                          <td class="price"> {{ item.price }} </td>
+                          {% if reg_user %}
+                            <td class="orderhere"><button id="add-runner" title="Select and add Table Runner to cart"><a href="{% url 'runner' size=item.size %}">Order Here</a></button></td>
+                          {% else %}
+                            <td> </th>
+                          {% endif %}
+                        </tr>
+                      {% endif %}
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+                <tr>
+                  <td class="white" colspan="2">&nbsp</td>
+                </tr>
+              </table>
+            {% endif %}
+          </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

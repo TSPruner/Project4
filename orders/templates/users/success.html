@@ -1,0 +1,22 @@
+{% extends "users/base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+<div id="main">
+    <div class="callout" width="100%">
+        <p id="main-margin">&nbsp</p>
+        <h1>Success</h1>
+
+        {{ message }}
+
+        <p id="main-margin">&nbsp</p>
+
+        <div class="card mb-3">
+            <div class="row no-gutters" id="footer">
+                <div class="col-md-6"><a href="{% url 'viewOrder' %}">View Order</a></div>
+                <div class="col-md-6"><a href="{% url 'index' %}">Return to menu</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

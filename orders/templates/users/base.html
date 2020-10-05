@@ -1,0 +1,42 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <head>
+            <title>The Christmas Tree Place</title>
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            <link rel="stylesheet" href="{% static 'orders/styles.css' %}"/>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            Users
+        </head>
+    </head>
+    <body>
+        <div id="banner">
+          <table width="100%" cellspacing="0" cellpadding="0">
+            <tbody>
+                <tr>
+                  <td class="green" width="6%">&nbsp</td>
+                  <td class="green" width="8%">
+                      <img src="{% static "orders/christmas_bells.png" %}" alt="Deco" height="100" width="100">
+                  </td>
+                  <td class="green" width="6%">&nbsp</td>
+                  <td width="50%">
+                    <h1 id="banner-title">The Christmas Tree Place</h1>
+                  </td>
+                  <td width="10%">
+                      <img src="{% static "orders/tree.jpg" %}" alt="Logo" height="100">
+                  </td>
+                  <td class="red" width="6%"></td>
+                  <td class="red" width="8%">
+                      <img src="{% static "orders/christmas_bells.png" %}" alt="Deco" height="100" width="100">
+                  </td>
+                  <td class="red" width="6%"></td>
+                </tr>
+              </tbody>
+          </table>
+        </div>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>
